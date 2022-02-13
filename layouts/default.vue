@@ -71,6 +71,8 @@ export default {
     }
   },
   mounted() {
+    this.checkSSL()
+    
     if (this.$route.query.server) {
       this.activeIndex = Object.keys(this.servers).indexOf(this.$route.query.server)
     }
@@ -91,6 +93,11 @@ export default {
     },
     normalisePath(string) {
       return capitalise(string)
+    },
+    checkSSL() {
+      if (window.location.protocol == "https:") {
+        window.location = document.URL.replace("https://", "http://");
+      }
     }
   },
   computed: {
@@ -105,9 +112,7 @@ export default {
   watch: {
     $route() {
       this.setPaths()
-      if (window.location.protocol == "https:") {
-        window.location = document.URL.replace("https://", "http://");
-      }
+      this.checkSSL()
     },
   },
 };
