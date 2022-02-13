@@ -14,7 +14,12 @@ class Rcon {
 
   constructor(address, pass) {
     console.log("Connecting to", address, pass)
-    this.socket = new WebSocket("ws://" + address + "/" + pass);
+    try {
+      this.socket = new WebSocket("ws://" + address + "/" + pass);
+    } catch(e) {
+      console.log("Failed to setup websocket", e)
+      return
+    }
     this.address = address;
     this.socket.onmessage = this._onMessage.bind(this)
     var parent = this

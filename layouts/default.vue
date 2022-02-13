@@ -6,7 +6,7 @@
     </div>
     <div class="content">
       <div class="navigation">
-        <Accordion>
+        <Accordion :activeIndex="activeIndex">
           <AccordionTab v-for="(server, index) in servers" :key="index" :header="server.address + ':' + server.port">
             <ul>
               <li>
@@ -24,6 +24,11 @@
                   Files
                 </NuxtLink>
               </li>
+              <li>
+                <NuxtLink :to="'/' + server.address + ':' + server.port + '/'">
+                  Schedules - Coming soon
+                </NuxtLink>
+              </li>
             </ul>
           </AccordionTab>
         </Accordion>
@@ -35,7 +40,8 @@
           Add server
         </Button>
       </NuxtLink>
-      <a href="https://www.buymeacoffee.com/_leon" target="_blank" class="support p-mt-3 p-mb-3">Support my work</a>
+      <a href="https://www.buymeacoffee.com/_leon" target="_blank" class="support p-mt-3">Support my work</a>
+      <a href="https://github.com/leona/rustpm-admin" target="_blank" class="support p-mt-3 p-mb-3">Source code</a>
     </div>
   </Sidebar>
   <div class="page-content">
@@ -66,10 +72,14 @@ export default {
     }
   },
   mounted() {
+    if (this.$route.params.server) {
+      this.activeIndex = Object.keys(this.servers).indexOf(this.$route.params.server)
+    }
   },
   data() {
     return {
       paths: [],
+      activeIndex: 0
     }
   },
   methods: {

@@ -38,6 +38,9 @@ export default {
   buildModules: [
   ],
 
+  plugins: [
+  ],
+
   primevue: {
     theme: 'md-dark-indigo',
     ripple: true,
@@ -58,7 +61,6 @@ export default {
       'ProgressBar',
       'Card',
       'Avatar',
-      'Toast',
       'Message',
     ]
   },
@@ -66,7 +68,8 @@ export default {
   modules: [
     'primevue/nuxt',
     '@nuxtjs/style-resources',
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/toast',
   ],
 
   styleResources: {

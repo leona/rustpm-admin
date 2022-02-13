@@ -55,7 +55,6 @@
             <Button class="p-button-success">Start</Button>
             <Button class="p-button-danger">Stop</Button>
             <Button class="p-button-info">Update</Button>
-            <Button class="p-button-danger">Wipe</Button>
           </div>
         </div>
         <div class="p-card p-px-5 p-pt-3 p-pb-4 p-mt-3 connection">
@@ -128,6 +127,7 @@ export default {
       }
       connection.onLogMessage = (data) => {
         console.log("Got log", data)
+        
         if (data.Message) {
           this.logs += `${data.Time}\t${data.Username}\t${data.Message}\n`
           this.$refs.consoleOutput.$el.scrollTop = this.$refs.consoleOutput.$el.scrollHeight;

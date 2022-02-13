@@ -27,6 +27,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { validateIp } from '../utilities/validate'
 
 export default {
   computed: {
@@ -36,19 +37,42 @@ export default {
       address: null,
       port: null,
       password: null,
-      apiPort: null
+      apiPort: null,
+      error: null
     }
   },
   methods: {
     ...mapActions('server', ['addServer']),
+    valid() {
+      if (!validateIp(this.address)) {
+        this.error = "Invalid address"
+        return false
+      }
+      return true
+    },
     onSubmit() {
+      if (!this.valid()) {
+        return
+      }
+      
       let { address, port, password, apiPort } = this
+
       this.addServer({
         address, port, password, apiPort
       })
       this.$router.push({
         path: `/${address}:${port}/manage`
       })
+    }
+  },
+  watch: {
+    error() {
+      if (this.error == null) return
+      this.$toast.error(this.error, {
+          position: "bottom-right",
+          duration : 5000
+      })
+      this.error = null
     }
   }
 }
