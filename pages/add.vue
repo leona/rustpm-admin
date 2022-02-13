@@ -12,7 +12,7 @@
           <label for="port">RCON Port</label>
         </span>
         <span class="p-float-label p-my-3">
-          <InputText id="password" type="text" v-model="password" />
+          <InputText id="password" type="password" v-model="password" />
           <label for="password">RCON Password</label>
         </span>
         <span class="p-float-label p-my-3">
