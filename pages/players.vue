@@ -8,7 +8,7 @@
           </template>
         </Column>
         <Column field="DisplayName" header="Name"></Column>
-        <!--<Column field="Address" header="Address"></Column>-->
+        <Column field="Address" header="Address"></Column>
         <Column field="ConnectedSeconds" header="ConnectedSeconds"></Column>
         <Column field="VoiationLevel" header="VoiationLevel"></Column>
         <Column field="Health" header="Health"></Column>
