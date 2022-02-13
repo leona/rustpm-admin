@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import OverlayPanel from 'primevue/overlaypanel';
 import { capitalise } from '../utilities/string.js'
 import { getTitle } from '../utilities/extensions.js'
 import Sidebar from 'primevue/sidebar';
