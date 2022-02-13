@@ -74,6 +74,10 @@ export default {
     scss: ['./assets/scss/variables.scss']
   },
 
+  router: {
+    fallback: true
+  },
+  
   server: {
     port: process.env.PORT
   },

@@ -9,7 +9,7 @@
             <Column field="size" header="Size"></Column>
             <Column>
               <template #body="slotProps">
-                <NuxtLink :to="`/${server.address}:${server.port}/files/edit?path=${slotProps.data.path}&group=${key}`">
+                <NuxtLink :to="{ path: '/files/edit', query: { group: key, path: slotProps.data.path, server: server.address + ':' + server.port }}">
                   <Button type="button" class="p-button-info p-mr-2" icon="pi pi-code"></Button>
                 </NuxtLink>
                 <Button type="button" class="p-button-danger" icon="pi pi-trash"></Button>
@@ -32,13 +32,13 @@ import Column from 'primevue/column';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import { mapActions, mapState } from 'vuex'
-import { capitalise } from '../../../utilities/string'
+import { capitalise } from '../../utilities/string'
 
 export default {
   computed: {
     ...mapState('server', ['servers']),
     server() {
-      return this.servers[this.$route.params.server]
+      return this.servers[this.$route.query.server]
     },
   },
   components: {

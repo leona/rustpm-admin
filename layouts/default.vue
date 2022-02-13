@@ -10,22 +10,22 @@
           <AccordionTab v-for="(server, index) in servers" :key="index" :header="server.address + ':' + server.port">
             <ul>
               <li>
-                <NuxtLink :to="'/' + server.address + ':' + server.port + '/manage'">
+                <NuxtLink :to="{ path: '/manage', query: { server: server.address + ':' + server.port }}">
                   Manage
                 </NuxtLink>
               </li>
               <li>
-                <NuxtLink :to="'/' + server.address + ':' + server.port + '/players'">
+                <NuxtLink :to="{ path: '/players', query: { server: server.address + ':' + server.port}}">
                   Players
                 </NuxtLink>
               </li>
               <li>
-                <NuxtLink :to="'/' + server.address + ':' + server.port + '/files'">
+                <NuxtLink :to="{ path: '/files', query: { server: server.address + ':' + server.port }}">
                   Files
                 </NuxtLink>
               </li>
               <li>
-                <NuxtLink :to="'/' + server.address + ':' + server.port + '/'">
+                <NuxtLink :to="{ path: '/', query: { server: server.address + ':' + server.port }}">
                   Schedules - Coming soon
                 </NuxtLink>
               </li>
@@ -72,8 +72,8 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.params.server) {
-      this.activeIndex = Object.keys(this.servers).indexOf(this.$route.params.server)
+    if (this.$route.query.server) {
+      this.activeIndex = Object.keys(this.servers).indexOf(this.$route.query.server)
     }
   },
   data() {

@@ -93,7 +93,7 @@
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 import { mapActions, mapState } from 'vuex'
-import { rconHandler } from '../../utilities/rcon'
+import { rconHandler } from '../utilities/rcon'
 
 export default {
   components: {
@@ -102,7 +102,7 @@ export default {
   computed: {
     ...mapState('server', ['servers']),
     server() {
-      return this.servers[this.$route.params.server]
+      return this.servers[this.$route.query.server]
     },
     info() {
       return this.server.info ? this.server.info : {}
@@ -119,7 +119,7 @@ export default {
     this.password = password
     this.apiPort = apiPort
 
-    rconHandler(this.servers[this.$route.params.server], (connection) => {
+    rconHandler(this.servers[this.$route.query.server], (connection) => {
       connection.onGenericMessage = (data) => {
         console.log("Got generic", data)
         this.chat += `${data.Time}\t${data.Username}\t${data.Message}\n`
@@ -149,7 +149,7 @@ export default {
   methods: {
     ...mapActions('server', ['getServerRconInfo', 'addServer', 'deleteServer']),
     update() {
-      this.getServerRconInfo(this.$route.params.server)
+      this.getServerRconInfo(this.$route.query.server)
     },
     onDelete() {
       let { address, port } = this.server
@@ -172,14 +172,14 @@ export default {
     onSubmitChat() {
       const { chatCommand } = this
       this.chatCommand = null
-      rconHandler(this.servers[this.$route.params.server], (connection) => {
+      rconHandler(this.servers[this.$route.query.server], (connection) => {
         connection.command("say " + chatCommand)
       })
     },
     onSubmitCommand() {
       const { command } = this
       this.command = null
-      rconHandler(this.servers[this.$route.params.server], (connection) => {
+      rconHandler(this.servers[this.$route.query.server], (connection) => {
         connection.command(command, (response) => {
           this.logs += `${response}\n`
           this.$refs.consoleOutput.$el.scrollTop = this.$refs.consoleOutput.$el.scrollHeight;

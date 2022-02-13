@@ -23,7 +23,7 @@ export default {
   computed: {
     ...mapState('server', ['servers']),
     server() {
-      return this.servers[this.$route.params.server]
+      return this.servers[this.$route.query.server]
     },
   },
   mounted() {

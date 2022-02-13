@@ -8,7 +8,7 @@
           </template>
         </Column>
         <Column field="DisplayName" header="Name"></Column>
-        <Column field="Address" header="Address"></Column>
+        <!--<Column field="Address" header="Address"></Column>-->
         <Column field="ConnectedSeconds" header="ConnectedSeconds"></Column>
         <Column field="VoiationLevel" header="VoiationLevel"></Column>
         <Column field="Health" header="Health"></Column>
@@ -30,7 +30,7 @@ export default {
   computed: {
     ...mapState('server', ['servers']),
     server() {
-      return this.servers[this.$route.params.server]
+      return this.servers[this.$route.query.server]
     },
     players() {
       return this.server.players ? this.server.players : []
@@ -58,7 +58,7 @@ export default {
   methods: {
     ...mapActions('server', ['getServerRconPlayers']),
     update() {
-      this.getServerRconPlayers(this.$route.params.server)
+      this.getServerRconPlayers(this.$route.query.server)
     },
   }
 }
