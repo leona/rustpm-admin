@@ -26,8 +26,6 @@ export default {
       { src: 'assets/scss/main.scss' },
   ],
 
-  serverMiddleware: [ ],
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
     '~/components',

@@ -106,6 +106,9 @@ export default {
   watch: {
     $route() {
       this.setPaths()
+      if (window.location.protocol == "https:") {
+        window.location = document.URL.replace("https://", "http://");
+      }
     },
   },
 };
