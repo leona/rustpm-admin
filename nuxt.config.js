@@ -37,6 +37,8 @@ export default {
   ],
 
   plugins: [
+    '~/plugins/rustpm',
+    '~/plugins/rcon'
   ],
 
   primevue: {

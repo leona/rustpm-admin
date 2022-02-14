@@ -56,7 +56,7 @@ import { getTitle } from '../utilities/extensions.js'
 import Sidebar from 'primevue/sidebar';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -72,9 +72,10 @@ export default {
   },
   mounted() {
     this.checkSSL()
-    
+
     if (this.$route.query.server) {
       this.activeIndex = Object.keys(this.servers).indexOf(this.$route.query.server)
+      this.setCurrentServer(this.$route.query.server)
     }
   },
   data() {
@@ -84,6 +85,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('server', ['setCurrentServer']),
     setPaths() {
       this.paths = this.$route.path.split('/').filter(x => x.length)
     },
@@ -101,7 +103,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('server', ['servers']),
+    ...mapState('server', ['servers', 'server']),
     isMobile() {
       return this.width <= 900
     },
@@ -113,6 +115,7 @@ export default {
     $route() {
       this.setPaths()
       this.checkSSL()
+      this.setCurrentServer(this.$route.query.server)
     },
   },
 };

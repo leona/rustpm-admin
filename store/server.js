@@ -4,6 +4,7 @@ var connection;
 
 const initState = {
   servers: JSON.parse(localStorage.getItem('servers')) || {},
+  server: {}
 };
 
 const state = () => ({
@@ -11,6 +12,10 @@ const state = () => ({
 });
 
 const actions = {
+  setCurrentServer({ commit }, payload) {
+    commit("setCurrentServer", payload);
+  },
+
   deleteServer({ commit }, payload) {
     commit("deleteServer", payload);
   },
@@ -20,7 +25,7 @@ const actions = {
   },
 
   getServerRconInfo({ commit, state }, address) {
-    rconHandler(state.servers[address], (connection) => {
+    rconHandler(state.server, (connection) => {
       connection.command("serverinfo", (info) => {
         commit("setServerInfo", { address, info })
       })
@@ -28,7 +33,7 @@ const actions = {
   },
 
   getServerRconPlayers({ commit, state }, address) {
-    rconHandler(state.servers[address], (connection) => {
+    rconHandler(state.server, (connection) => {
       connection.command("playerlist", (players) => {
         commit("setServerPlayers", { address, players })
       })
@@ -37,6 +42,9 @@ const actions = {
 };
 
 const mutations = {
+  setCurrentServer(state, payload) {
+    state.server = state.servers[payload]
+  },
   deleteServer(state, payload) {
     console.log("Deleting server:", payload)
     let servers = JSON.parse(JSON.stringify(state.servers))

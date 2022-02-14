@@ -33,12 +33,11 @@ class Rcon {
   _onMessage(e) {
     var data = JSON.parse(e.data)
     var message = data.Message
-    console.log("Got message", data)
 
     try {
       message = JSON.parse(message)
     } catch(e) {
-      console.log("Failed to parse json", e, message)
+      console.log("Failed to parse response as json")
     }
 
     if (data.Identifier == -1 && this.onGenericMessage) {
@@ -106,10 +105,17 @@ function rconHandler(server, callback) {
 
   let connection = new Rcon(_address, password)
 
+  function onClose() {
+    delete connections[_address]
+  }
+
   connection.onOpen = function() {
     connections[_address]  = connection
     callback(connection)
   }
+
+  connection.OnClose = onClose
+  connection.onError = onClose
 }
 
 

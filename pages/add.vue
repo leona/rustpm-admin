@@ -61,7 +61,8 @@ export default {
         address, port, password, apiPort
       })
       this.$router.push({
-        path: `/${address}:${port}/manage`
+        path: `/manage`,
+        query: { server: `${address}:${port}` }
       })
     }
   },

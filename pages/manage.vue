@@ -41,22 +41,7 @@
         </div>
       </div>
       <div class="p-col-5">
-        <div class="p-card p-px-5 p-pt-3 p-pb-4 operations">
-          <div class="p-grid">
-            <div class="p-col-6">
-              <h4>Operations</h4>
-            </div>
-            <div class="p-col-6">
-              <p class="state">State <span>Running</span></p>
-            </div>
-          </div>
-          <div class="p-d-flex p-jc-between">
-            <Button class="p-button-warning">Restart</Button>
-            <Button class="p-button-success">Start</Button>
-            <Button class="p-button-danger">Stop</Button>
-            <Button class="p-button-info">Update</Button>
-          </div>
-        </div>
+        <operations />
         <div class="p-card p-px-5 p-pt-3 p-pb-4 p-mt-3 connection">
           <h4>Connection</h4>
           <form @submit.prevent="onSubmitConnection()">
@@ -84,6 +69,9 @@
             </span>
           </div>
         </div>
+      </div>
+      <div class="p-col-12">
+        <logs />
       </div>
     </div>
   </div>
@@ -119,9 +107,11 @@ export default {
     this.password = password
     this.apiPort = apiPort
 
-    rconHandler(this.servers[this.$route.query.server], (connection) => {
+    this.$rcon((connection) => {
+      console.log(123, "got connection", connection)
       connection.onGenericMessage = (data) => {
         console.log("Got generic", data)
+        data.Time = new Date().toLocaleTimeString("en-US")
         this.chat += `${data.Time}\t${data.Username}\t${data.Message}\n`
         this.$refs.chatOutput.$el.scrollTop = this.$refs.chatOutput.$el.scrollHeight;
       }
@@ -144,6 +134,10 @@ export default {
       chat: "",
       logs: "", 
       interval: null,
+      state: {
+        message: "unknown",
+        type: "warn"
+      }
     }
   },
   methods: {
@@ -165,6 +159,7 @@ export default {
     onSubmitConnection() {
       let { password, apiPort } = this
       let { address, port } = this.server
+
       this.addServer({
         address, port, password, apiPort
       })
@@ -172,14 +167,15 @@ export default {
     onSubmitChat() {
       const { chatCommand } = this
       this.chatCommand = null
-      rconHandler(this.servers[this.$route.query.server], (connection) => {
+      
+      this.$rcon((connection) => {
         connection.command("say " + chatCommand)
       })
     },
     onSubmitCommand() {
       const { command } = this
       this.command = null
-      rconHandler(this.servers[this.$route.query.server], (connection) => {
+      this.$rcon((connection) => {
         connection.command(command, (response) => {
           this.logs += `${response}\n`
           this.$refs.consoleOutput.$el.scrollTop = this.$refs.consoleOutput.$el.scrollHeight;
@@ -220,18 +216,6 @@ export default {
       }
     }
 
-    .operations {
-      .state {
-        text-align: right;
-        font-size: 12px;
-
-        span {
-          color: green;
-          font-size: 20px;
-          display:block
-        }
-      }
-    }
     .rcon-data {
       p {
         color:#979797;
